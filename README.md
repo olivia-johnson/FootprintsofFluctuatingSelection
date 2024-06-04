@@ -13,4 +13,5 @@ conda env create -f sim_env.yml
 conda activate sim_env
 ```
 
+A parameter file is used to pass values to simulations. An [example file](parameter_example.txt) can be used as a template with the text in quotations removed.
 
