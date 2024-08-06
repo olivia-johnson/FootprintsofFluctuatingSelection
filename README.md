@@ -15,13 +15,12 @@ conda activate sim_env
 
 A parameter file is used to pass values to simulations. The [example file](parameters/parameter_example.txt) can be used with the explanations in quotations removed. We recommend saving the parameter files as the group number (unique identifier) to the [parameter folder](parameters). The code is structured to extract parameter values from the files in this folder.
 
-### Before you start
-
-The following files will need the path to this directory edited:
+ 
+> [!NOTE]
+> The following files will need the path to this directory edited:
  [python functions](scripts/single_locus_hpc.py), 
  [run full simulations](scripts/single_locus_run.py), 
   and [run short simulations](scripts/single_locus_short.py).
- 
-> [!NOTE]
+> 
 > All R scripts will need the path to this directory as well as the chosen unique parameter set identifiers to be edited. The R files are best run in RStudio where the users can edit the code as appropriate. Plots in the R code are will be saved in the [plots](plots) folder.
 
