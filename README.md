@@ -17,4 +17,5 @@ A parameter file is used to pass values to simulations. The [example file](param
 
 The following files will need the path to this directory edited:
 [Add files]
+All R scripts will need the path to this directory as well as the chosen unique parameter set identifiers to be edited. The R files are best run in RStudio where the users can edit the code as appropriate.
 
