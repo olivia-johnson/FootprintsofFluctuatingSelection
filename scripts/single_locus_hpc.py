@@ -62,11 +62,7 @@ def simulate_single_locus(tmpdir, results_dir, group, replicate, recRate, genome
     tmpdir_call = "tmpdir='" + str(tmpdir)+ "'"
     results = "results_dir='" + str(results_dir)+ "'"
     sequnceSize=genomeSize+(10*winSize)
-    cmd = 'slim -d "' +str(tmpdir_call)+ '" -d "' +str(results)+ '" -d fit='+ str(fitness_on)+" -d group=" + str(group) + " -d winSize=" +
-    str(winSize) +" -d f=" + str(f) + " -d h_s=" + str(h_s)+ " -d h_w=" + str(h_w)+ " -d s_s=" + str(s_s)+ " -d s_w=" + str(s_w)+
-    " -d g_s=" + str(sum_gen)+" -d g_w=" + str(win_gen)+" -d replicate=" + str(replicate) + " -d GenomeSize=" + str(int(sequnceSize)) +
-    " -d n_s=" + str(int(s_pop)) + " -d n_w=" + str(int(w_pop)) + " -d mut=0.0 -d rr=" + str(recRate) +   " -d rGen="+ str(rGen) +
-    path+str(sim_type)+"_single_locus.slim"
+    cmd = 'slim -d "' +str(tmpdir_call)+ '" -d "' +str(results)+ '" -d fit='+ str(fitness_on)+" -d group=" + str(group) + " -d winSize=" +str(winSize) +" -d f=" + str(f) + " -d h_s=" + str(h_s)+ " -d h_w=" + str(h_w)+ " -d s_s=" + str(s_s)+ " -d s_w=" + str(s_w)+" -d g_s=" + str(sum_gen)+" -d g_w=" + str(win_gen)+" -d replicate=" + str(replicate) + " -d GenomeSize=" + str(int(sequnceSize)) +   " -d n_s=" + str(int(s_pop)) + " -d n_w=" + str(int(w_pop)) + " -d mut=0.0 -d rr=" + str(recRate) +   " -d rGen="+ str(rGen) +path+str(sim_type)+"_single_locus.slim"
     print(cmd)
     os.system(cmd)
     # #print("Time for SLiM sim = ", (time.time()- start_time))
@@ -80,11 +76,7 @@ def short_single_locus(tmpdir, results_dir, group, replicate, recRate, genomeSiz
     tmpdir_call = "tmpdir='" + str(tmpdir)+ "'"
     results = "results_dir='" + str(results_dir)+ "'"
     sequnceSize=genomeSize+(10*winSize)
-    cmd = 'slim -d "' +str(tmpdir_call)+ '" -d "' +str(results)+ '" -d fit='+ str(fitness_on)+" -d group=" + str(group) + " -d winSize=" +
-    str(winSize) +" -d f=" + str(f) + " -d h_s=" + str(h_s)+ " -d h_w=" + str(h_w)+ " -d s_s=" + str(s_s)+ " -d s_w=" + str(s_w)+
-    " -d g_s=" + str(sum_gen)+" -d g_w=" + str(win_gen)+" -d replicate=" + str(replicate) + " -d GenomeSize=" + str(int(sequnceSize)) +
-    " -d n_s=" + str(int(s_pop)) + " -d n_w=" + str(int(w_pop)) + " -d mut=0.0 -d rr=" + str(recRate) +   " -d rGen="+ str(rGen) +
-    path +str(sim_type)+"_single_locus_short.slim"
+    cmd = 'slim -d "' +str(tmpdir_call)+ '" -d "' +str(results)+ '" -d fit='+ str(fitness_on)+" -d group=" + str(group) + " -d winSize=" + str(winSize) +" -d f=" + str(f) + " -d h_s=" + str(h_s)+ " -d h_w=" + str(h_w)+ " -d s_s=" + str(s_s)+ " -d s_w=" + str(s_w)+ " -d g_s=" + str(sum_gen)+" -d g_w=" + str(win_gen)+" -d replicate=" + str(replicate) + " -d GenomeSize=" + str(int(sequnceSize)) + " -d n_s=" + str(int(s_pop)) + " -d n_w=" + str(int(w_pop)) + " -d mut=0.0 -d rr=" + str(recRate) +   " -d rGen="+ str(rGen) +path +str(sim_type)+"_single_locus_short.slim"
     print(cmd)
     os.system(cmd)
     # #print("Time for SLiM sim = ", (time.time()- start_time))
@@ -208,7 +200,7 @@ def analyse(tmpdir, results_dir,group, replicate, mutRate, genomeSize, winSize, 
 
             # calculate diversity (tajima's pi) using tskit
         div = samp_ts.diversity(sample_sets = None, windows = win3)  ##fix windows
-        ts_tests = [div, tajdb, hap_div[0]]
+        ts_tests = [div, tajdb]
         for test in ts_tests:
             if len(test)!= len(win3)-1:
                 print("error in test ", test, ", number of values does not match number of windows")
@@ -310,7 +302,7 @@ def sfs(sim_type, group, run, tmpdir, mutRate, winSize):  ## generate SFS
         dataset.to_string(buf = "{2}/sfs_{0}_{1}_{3}.txt".format(sim_type,run,tmpdir,slim_time), index=False)
 
     if sim_type=="fluctuating":  ## SFS also calculated for window 250kb away from selected site for fluctuating selection
-         start_pos=(2750000-5000)-(((2750000-(winSize/2))//winSize)*winSize)
+        start_pos=(2750000-5000)-(((2750000-(winSize/2))//winSize)*winSize)
 
         win3 = np.arange(start_pos, mut_ts.sequence_length, winSize).astype(int)
         win=win3[win3>=(midpoint-5000)]
