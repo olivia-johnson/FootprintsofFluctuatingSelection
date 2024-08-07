@@ -21,7 +21,7 @@ A parameter file is used to pass values to simulations. The [example file](param
 
 ## The simulations
 All aspects of the simulations are encoded by functions found in [this file](scripts/single_locus_hpc.py). These functions are used in [single_locus_run.py](scripts/single_locus_run.py) to run simulations with intensive sampling (and intensive resource usage) and [single_locus_short.py](scripts/single_locus_short.py), simulations with minimal sampling that are much faster and require fewer resources. These files also encode the calculation of summary statistics and in the case of the short simulations, will generate the site and haplotype frequency spectrums.
-> [!NOTE]
+> [!IMPORTANT]
 > The following files will need the path to this directory edited:
 > - [single_locus_hpc.py](scripts/single_locus_hpc.py), 
 > - [single_locus_run.py](scripts/single_locus_run.py),
@@ -60,6 +60,6 @@ Further analysis is conducted in R, and we recommend you conduct it in the follo
 5. [Linear Discriminant Analysis](scripts/LDA.R)
    
 
-> [!NOTE] 
+> [!IMPORTANT] 
 > All R scripts will need the path to this directory as well as the chosen unique parameter set identifiers to be edited. The R files are best run in RStudio where the users can edit the code as appropriate. Plots in the R code will be saved in the [plots](plots) folder.
 
