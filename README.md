@@ -53,10 +53,10 @@ Following the successful completion of the simulation files, you will have the f
    - and a file containing data to calculate the haplotype frequency spectrums (hfs_group_x_replicate.txt)
        
 Further analysis is conducted in R, and we recommend you conduct it in the following order:
-1. [Compilation of summary statistic files](scripts/compile_files.R)
-2. [Comparisons of varying strengths of fluctuating selection](scripts/fluctuating_comparisons.R)
+1. [Compile summary statistic files](scripts/compile_files.R)
+2. [Compare varying strengths of fluctuating selection](scripts/fluctuating_comparisons.R)
 3. Generate [SFS](scripts/sfs.R) and [HFS](hfs.R)
-4. [Comparing differing selection types](scripts/comparing_selection_forms.R)
+4. [Compare differing selection types](scripts/comparing_selection_forms.R)
 5. [Linear Discriminant Analysis](scripts/LDA.R)
    
 
