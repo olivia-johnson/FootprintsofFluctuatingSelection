@@ -41,7 +41,7 @@ or
 python single_locus_run.py ${group_x} ${replicate number} ${temporary directory} ${results directory} ${selection type}
 ```
 ## Analysis
-Following the successful completion of the simulation files, you will have the following files:
+Following the successful completion of the simulation scripts, you will have the following files:
 - A recombination map (rec_map_group_x.txt)
 - A burn-in tree sequence (burnin_seglift_group_x_replicate.trees)
 - A tree sequence from the simulation of selection (treeseq_group_x_replicate.trees)
