@@ -41,13 +41,22 @@ python single_locus_run.py ${group_x} ${replicate number} ${temporary directory}
 ## Analysis
 Following the successful completion of the simulation files, you will have the following files:
 - A recombination map (rec_map_group_x.txt)
-- A burn in tree sequence (burnin_seglift_group_x_replicate.trees)
+- A burn-in tree sequence (burnin_seglift_group_x_replicate.trees)
 - A tree sequence from the simulation of selection (treeseq_group_x_replicate.trees)
 - An allele frequency file (al_freq_group_x_replicate.txt)
 - A log file that records the parameters and the number of restarts for each simulation (slimlog_group_x_replicate.txt)
 - A file containing the calculated summary statistics (sim_stat_group_x_replicate.txt)
-- and for short simulations
- - A file containing the site and haplotype frequency spectrums (sfs_selection_type_replicate.txt and hfs_group_x_replicate.txt)   
+  for short simulations, you will also have:
+   - A file containing the site frequency spectrum (sfs_selection_type_replicate.txt)
+   - and a file containing data to calculate the haplotype frequency spectrums (hfs_group_x_replicate.txt)
+       
+Further analysis is conducted in R, and we recommend you conduct it in the following order:
+1. [Compilation of summary statistic files](scripts/compile_files.R)
+2. [Comparisons of varying strengths of fluctuating selection](scripts/fluctuating_comparisons.R)
+3. Generate [SFS](scripts/sfs.R) and [HFS](hfs.R)
+4. [Comparing differing selection types](scripts/comparing_selection_forms.R)
+5. [Linear Discriminant Analysis](scripts/LDA.R)
+   
 
 > [!NOTE] 
 > All R scripts will need the path to this directory as well as the chosen unique parameter set identifiers to be edited. The R files are best run in RStudio where the users can edit the code as appropriate. Plots in the R code are will be saved in the [plots](plots) folder.
