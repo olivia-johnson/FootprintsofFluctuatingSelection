@@ -17,7 +17,7 @@ conda activate sim_env
 ```
 
 ## The simulation parameters
-A parameter file is used to pass values to simulations. The [example file](parameters/parameter_example.txt) can be used with the explanations in quotations removed. We recommend saving the parameter files as "group_x.txt", where x is the group number (unique identifier), to the [parameter folder](parameters). The code is structured to extract parameter values from the files in this folder.
+A parameter file is used to pass values to simulations. The [example file](parameters/group_x.txt) can be used with the explanations in quotations removed. We recommend saving the parameter files as ['group_x.txt'](group_x.txt), where x is the group number (unique identifier), to the [parameter folder](parameters). The code is structured to extract parameter values from the files in this folder.
 
 ## The simulations
 All aspects of the simulations are encoded by functions found in [this file](single_locus_hpc.py). These functions are used in [single_locus_run.py](scripts/single_locus_run.py) to run simulations with intensive sampling (and intensive resource usage) and [single_locus_short.py](scripts/single_locus_short.py), simulations with minimal sampling that are much faster and require fewer resources. These files also encode the calculation of summary statistics and in the case of the short simulations, will generate the site and haplotype frequency spectrums.
