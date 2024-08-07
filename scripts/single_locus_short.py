@@ -1,3 +1,4 @@
+path="~/FootprintsofFluctuatingSelection"
 import os
 import sys
 import msprime
@@ -9,7 +10,7 @@ import pandas as pd
 import time
 import allel
 import scipy
-sys.path.insert(1, '~/FootprintsofFluctuatingSelection')
+sys.path.insert(1, '{0}scripts/'.format(path))
 import single_locus_hpc
 import NCD
 
@@ -20,7 +21,7 @@ results_dir=str(sys.argv[4])
 
 ####  READ IN PARAMETERS
     # load in parameter file
-with open('~/FootprintsofFluctuatingSelection/parameters/{0}.txt'.format(params, sim_type), 'r') as f:
+with open('{0}parameters/{1}.txt'.format(path, params), 'r') as f:
     parameters = yaml.load(f, Loader=yaml.FullLoader)
 
     #set parameters from file
