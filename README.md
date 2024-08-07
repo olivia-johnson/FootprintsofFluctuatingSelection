@@ -60,6 +60,6 @@ Further analysis is conducted in R, and we recommend you conduct it in the follo
 5. [Linear Discriminant Analysis](scripts/LDA.R)
    
 
-> [!IMPORTANT] 
+> [!IMPORTANT]
 > All R scripts will need the path to this directory as well as the chosen unique parameter set identifiers to be edited. The R files are best run in RStudio where the users can edit the code as appropriate. Plots in the R code will be saved in the [plots](plots) folder.
 
