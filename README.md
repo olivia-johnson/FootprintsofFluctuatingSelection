@@ -3,7 +3,7 @@
 
 This repository contains the code to replicate the analysis conducted in the aforementioned article. 
 
-## Getting started
+## Directions
 
 ### The environment
 The [yaml](sim_env.yml) file can be used to create a conda environment with the programs required to conduct the simulations and analysis performed in this study.
