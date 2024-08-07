@@ -23,11 +23,13 @@ A parameter file is used to pass values to simulations. The [example file](param
 All aspects of the simulations are encoded by functions found in [this file](scripts/single_locus_hpc.py). These functions are used in [single_locus_run.py](scripts/single_locus_run.py) to run simulations with intensive sampling (and intensive resource usage) and [single_locus_short.py](scripts/single_locus_short.py), simulations with minimal sampling that are much faster and require fewer resources. These files also encode the calculation of summary statistics and in the case of the short simulations, will generate the site and haplotype frequency spectrums.
 > [!NOTE]
 > The following files will need the path to this directory edited:
- [python functions](scripts/single_locus_hpc.py), 
- [run full simulations](scripts/single_locus_run.py), 
-  and [run short simulations](scripts/single_locus_short.py).
+> - [single_locus_hpc.py](scripts/single_locus_hpc.py), 
+> - [single_locus_run.py](scripts/single_locus_run.py),
+> - [single_locus_short.py](scripts/single_locus_short.py).
+>   
+> The path is encoded at the top of each script for your convenience.
 
-Once you have fixed the paths in the above Python scripts you can run the simulations using the following code, we used a temporary directory to increase speed on a cluster, if you will not be using a temporary directory you can pass the results directory in its place.
+Once you have fixed the paths in the above Python scripts you can run the simulations using the following code, we used a temporary directory to increase speed on a cluster, if you will not be using a temporary directory you can pass the path to the results directory in it's place.
 
 We also recommend making a folder for each selection type (i.e. hard/soft/neutral/[fluctuating](fluctuating)/balancing) and within that, a folder for each parameter set [(group)](fluctuating/group_x) as files will be deposited [in that folder](fluctuating/group_x/results_will_be_written_here.txt). Follow the links in this paragraph for an example of the file structure.
 
@@ -59,5 +61,5 @@ Further analysis is conducted in R, and we recommend you conduct it in the follo
    
 
 > [!NOTE] 
-> All R scripts will need the path to this directory as well as the chosen unique parameter set identifiers to be edited. The R files are best run in RStudio where the users can edit the code as appropriate. Plots in the R code are will be saved in the [plots](plots) folder.
+> All R scripts will need the path to this directory as well as the chosen unique parameter set identifiers to be edited. The R files are best run in RStudio where the users can edit the code as appropriate. Plots in the R code will be saved in the [plots](plots) folder.
 
