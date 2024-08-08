@@ -55,7 +55,7 @@ Following the successful completion of the simulation scripts, you will have the
 Further analysis is conducted in R, and we recommend you conduct it in the following order:
 1. [Compile summary statistic files](scripts/compile_data.R)
 2. [Compare varying strengths of fluctuating selection](scripts/fluctuating_comparisons.R)
-3. Generate [SFS](scripts/sfs.R) and [HFS](hfs.R)
+3. Generate [SFS](scripts/sfs.R) and [HFS](scripts/hfs.R)
 4. [Compare differing selection types](scripts/comparing_selection_forms.R)
 5. [Linear Discriminant Analysis](scripts/LDA.R)
    
