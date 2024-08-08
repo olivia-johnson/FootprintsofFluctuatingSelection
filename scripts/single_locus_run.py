@@ -16,9 +16,11 @@ params=sys.argv[1]
 replicate = sys.argv[2]
 tmpdir =str(sys.argv[3])
 results_dir=str(sys.argv[4])
+sim_type=str(sys.argv[5])
+
 ####  READ IN PARAMETERS
     # load in parameter file
-with open('{0}parameters/{1}.txt'.format(path,params), 'r') as f:
+with open('{0}parameters/{1}/{2}.txt'.format(path, sim_type, params), 'r') as f:
     parameters = yaml.load(f, Loader=yaml.FullLoader)
 
     #set parameters from file
