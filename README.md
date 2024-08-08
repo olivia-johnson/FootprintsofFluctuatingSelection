@@ -31,7 +31,7 @@ All aspects of the simulations are encoded by functions found in [this file](scr
 
 Once you have fixed the paths in the above Python scripts you can run the simulations using the following code, we used a temporary directory to increase speed on a cluster, if you will not be using a temporary directory you can pass the path to the results directory in it's place.
 
-We also recommend making a folder for each selection type (i.e. hard/soft/neutral/[fluctuating](fluctuating)/balancing) and within that, a folder for each parameter set [(group)](fluctuating/group_x) as files will be deposited [in that folder](fluctuating/group_x/results_will_be_written_here.txt). Follow the links in this paragraph for an example of the file structure.
+We also recommend making a folder for each selection type (i.e. hard/soft/neutral/[fluctuating](fluctuating)/balancing) and within that, a folder for each parameter set ([group](fluctuating/group_x)) as files will be deposited [in that folder](fluctuating/group_x/results_will_be_written_here.txt). Follow the links in this paragraph for an example of the file structure.
 
 ```ruby
 python single_locus_short.py ${group_x} ${replicate number} ${temporary directory} ${results directory} ${selection type}
