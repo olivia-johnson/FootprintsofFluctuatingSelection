@@ -218,7 +218,7 @@ data=sum_stat[edges==F&(gen_year==10)]#subset end of summer generation
 ## determine timepoint in season
 data[gen_year==0 | gen_year==10, fluctuation:=ifelse(gen_year==10, "End Summer", "End Winter"), by="gen_year"] 
 data[gen_year==5 | gen_year==15, fluctuation:=ifelse(gen_year==5, "Mid Summer", "Mid Winter"), by="gen_year"]
-## calculate mean of statsitcis for each sim_type, window and timepoint
+## calculate mean of statistics for each sim_type, window and timepoint
 data[, rel_div:=diversity/exp, by=c("sim_type", "run", "Gen")]
 data[, mean_tajd:=mean(tajimas_d_branch), by=c( "sim_type","midpoint", "fluctuation")]
 data[, mean_div:=mean(diversity), by=c( "sim_type","midpoint", "fluctuation")]
@@ -248,7 +248,7 @@ for (i in c(10)){ ## can cycle through seasonal timepoint but set to end of summ
   significance=rbind(significance, sig)
   }
 print(sig_data[, .N, by="sim_type"])
-## adjust stars to represent Hockberg adjusted p-value
+## adjust stars to represent Hochberg adjusted p-value
 significance=significance%>%mutate(p.adj.sig = ifelse(p.adj < 0.001, "***",
                                                        ifelse(p.adj < 0.01, "**",
                                                               ifelse(p.adj < 0.05,
@@ -267,10 +267,10 @@ for (i in 1:length(comps$group1)){
   cd=cohensD(g1,g2)
   comps$cohens_d[i]=cd
 }
-## Merge Cohen's D to signifcance dataset
+## Merge Cohen's D to significance dataset
 significance=merge(significance, comps, by = c("group1", "group2", ".y."))
 
-## Investigate signifcance dataset
+## Investigate significance dataset
 ##Example comparing fluctuating with positive selection
 significance[ p.adj<0.05 & gen_year==10 &(group1=="Early Equilibrium Fluctuating" |group1=="Long-Term Fluctuating" |
   group2=="Early Equilibrium Fluctuating" |group2=="Long-Term Fluctuating")& (group1=="Soft Sweep" |group1=="Hard Sweep" |
@@ -318,7 +318,6 @@ f_taj = ggplot(fdata, aes(x=dist/100))+
   geom_line(aes(y=mean_tajd), col="black", size=0.8)+
   theme_bw()+
   geom_vline(data = subset(fdata),aes(xintercept = 0), col= "red",linetype="dotted", size=.7)+
-  geom_hline(data = subset(fdata, linkage=="unlinked"), aes(yintercept = linkage_tajd), col = "blue", size=0.5)+
   facet_wrap("sim_type")+
   theme(axis.title.x.bottom = element_blank(), axis.title.y.left = element_blank())+
   coord_cartesian(y=c(-1, 1)) +
@@ -328,7 +327,6 @@ b_taj = ggplot(bdata, aes(x=dist/100))+
   geom_line(aes(y=mean_tajd), col="black", size=0.8)+
   theme_bw()+
   geom_vline(data = subset(bdata),aes(xintercept = 0), col= "red",linetype="dotted", size=.7)+
-  geom_hline(data = subset(bdata, linkage=="unlinked"), aes(yintercept = linkage_tajd), col = "blue", size=0.5)+
   facet_wrap("sim_type")+
   theme(axis.title.x.bottom = element_blank())+
   coord_cartesian(y=c(-1, 1)) +
