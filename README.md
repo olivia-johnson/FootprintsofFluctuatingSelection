@@ -1,7 +1,7 @@
 
 # Discerning the Genetic Footprints of Seasonal Fluctuating Selection: A Comparison with Established Selection Forms
 
-This repository contains the code to replicate the analysis conducted in the aforementioned article. 
+This repository contains the code to replicate the analysis conducted in the aforementioned manuscript. 
 
 ## Directions
 
