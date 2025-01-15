@@ -38,7 +38,6 @@ sum_stats=merge(sum_stats, ncd_stand, by="bin")
 sum_stats[,ncd5_z:=(ncd_5-m.ncd5)/sd.ncd5, by=c("bin", "ncd_5")]
 sum_stats[,ncd4_z:=(ncd_4-m.ncd4)/sd.ncd4, by=c("bin", "ncd_4")]
 sum_stats[,ncd3_z:=(ncd_3-m.ncd3)/sd.ncd3, by=c("bin", "ncd_3")]
-sum_stats[,ncd_z:=(ncd-m.ncd)/sd.ncd, by=c("bin", "ncd")]
 
 sum_stats[, year:=ifelse(gen_season=="EG",Gen%/%20, Gen%/%12), by="Gen"]
 
@@ -86,7 +85,6 @@ sum_stats=merge(sum_stats, ncd_stand, by="bin")
 sum_stats[,ncd5_z:=(ncd_5-m.ncd5)/sd.ncd5, by=c("bin", "ncd_5")]
 sum_stats[,ncd4_z:=(ncd_4-m.ncd4)/sd.ncd4, by=c("bin", "ncd_4")]
 sum_stats[,ncd3_z:=(ncd_3-m.ncd3)/sd.ncd3, by=c("bin", "ncd_3")]
-sum_stats[,ncd_z:=(ncd-m.ncd)/sd.ncd, by=c("bin", "ncd")]
 
 sum_stats[, year:=ifelse(gen_season=="EG",Gen%/%20, Gen%/%12), by="Gen"]
 
@@ -135,7 +133,6 @@ sum_stats=merge(sum_stats, ncd_stand, by="bin")
 sum_stats[,ncd5_z:=(ncd_5-m.ncd5)/sd.ncd5, by=c("bin", "ncd_5")]
 sum_stats[,ncd4_z:=(ncd_4-m.ncd4)/sd.ncd4, by=c("bin", "ncd_4")]
 sum_stats[,ncd3_z:=(ncd_3-m.ncd3)/sd.ncd3, by=c("bin", "ncd_3")]
-sum_stats[,ncd_z:=(ncd-m.ncd)/sd.ncd, by=c("bin", "ncd")]
 
 sum_stats[, year:=ifelse(gen_season=="EG",Gen%/%20, Gen%/%12), by="Gen"]
 
