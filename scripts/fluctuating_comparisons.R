@@ -16,8 +16,7 @@ bins=seq(from=0,to= 25*((max(sum_stats$n_seg_sites)%/%25)+1), by=25) # create bi
 sum_stats[, bin:=cut(n_seg_sites, bins)] # bin windows  by number of segregating sites
 #calculate mean and sd to use to standardise NCD based on number of segregating sites per window, as suggested in Bitarello et al. 2018.
 ncd_stand=sum_stats[, .(m.ncd3=mean(ncd_3), m.ncd4=mean(ncd_4), m.ncd5=mean(ncd_5), 
-                        sd.ncd3=sd(ncd_3), sd.ncd4=sd(ncd_4), sd.ncd5=sd(ncd_5), m.ncd=mean(ncd), 
-                        sd.ncd=sd(ncd)), by="bin"] 
+                        sd.ncd3=sd(ncd_3), sd.ncd4=sd(ncd_4), sd.ncd5=sd(ncd_5)), by="bin"] 
 
 sum_stats=merge(sum_stats, ncd_stand, by="bin") # add standardising values to summary data table
 
@@ -50,7 +49,6 @@ sum_stats=merge(sum_stats, ncd_stand, by="bin") # merge to dataset
 sum_stats[,ncd5_z:=(ncd_5-m.ncd5)/sd.ncd5, by=c("bin", "ncd_5")] # Standardise NCD (TF = 0.5)
 sum_stats[,ncd4_z:=(ncd_4-m.ncd4)/sd.ncd4, by=c("bin", "ncd_4")] # Standardise NCD (TF = 0.4)
 sum_stats[,ncd3_z:=(ncd_3-m.ncd3)/sd.ncd3, by=c("bin", "ncd_3")] # Standardise NCD (TF = 0.3)
-sum_stats[,ncd_z:=(ncd-m.ncd)/sd.ncd, by=c("bin", "ncd")]
 
 sum_stats[, year:=ifelse(gen_season=="EG",Gen%/%20, Gen%/%12), by="Gen"] # Determine the year/seasonal cycle of each generation
 
