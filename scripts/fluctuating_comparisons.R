@@ -223,6 +223,8 @@ H1_eq=ggplot(data[h_s==0.6& gen_year==10 &sim_type=="Early Equilibrium Fluctuati
   geom_vline(data = subset(data[sim_type=="Early Equilibrium Fluctuating"]),aes(xintercept = 0), col= "red",linetype="dotted", size=.7)+
   geom_line(aes(y=mean_H1, group=block), alpha=0.8, size=.5)+
   theme_bw()+
+  geom_texthline(aes(yintercept=h1_qt[[1]], label = "5%"), lty = 2, colour= 'black',hjust = 0.95)+
+  geom_texthline(aes(yintercept=h1_qt[[3]], label = "95%"), lty = 2, colour= 'black',hjust = 0.95)+
   labs(x="Distance from selected site (Mb)", y="Garud's H1", col="Selection Coefficient")+
   facet_wrap(~sim_type, ncol=4, scale="free_y")+
   theme(axis.title.x.bottom = element_blank(), legend.position = "None")+
@@ -231,6 +233,8 @@ H1_lt=ggplot(data[h_s==0.6& gen_year==10&sim_type=="Long-Term Fluctuating"], aes
   geom_vline(data = subset(data[sim_type=="Long-Term Fluctuating"]),aes(xintercept = 0), col= "red",linetype="dotted", size=.7)+
   geom_line(aes(y=mean_H1, group=block), alpha=0.8, size=.5)+
   theme_bw()+
+  geom_texthline(aes(yintercept=h1_qt[[1]], label = "5%"), lty = 2, colour= 'black',hjust = 0.95)+
+  geom_texthline(aes(yintercept=h1_qt[[3]], label = "95%"), lty = 2, colour= 'black',hjust = 0.95)+
   labs(x="Distance from selected site (Mb)", y="Garud's H1", col="Selection Coefficient")+
   facet_wrap(~sim_type, ncol=4, scale="free_y")+
   theme(axis.title.x.bottom = element_blank(), axis.title.y = element_blank())+
@@ -241,6 +245,8 @@ H12_eq=ggplot(data[h_s==0.6& gen_year==10 &sim_type=="Early Equilibrium Fluctuat
   geom_vline(data = subset(data[sim_type=="Early Equilibrium Fluctuating"]),aes(xintercept = 0), col= "red",linetype="dotted", size=.7)+
   geom_line(aes(y=mean_H12, group=block), alpha=0.8, size=.5)+
   theme_bw()+
+  geom_texthline(aes(yintercept=h12_qt[[1]], label = "5%"), lty = 2, colour= 'black',hjust = 0.95)+
+  geom_texthline(aes(yintercept=h12_qt[[3]], label = "95%"), lty = 2, colour= 'black',hjust = 0.95)+
   labs(x="Distance from selected site (Mb)", y="Garud's H12", col="Selection Coefficient")+
   facet_wrap(~sim_type, ncol=4, scale="free_y")+
   theme(axis.title.x.bottom = element_blank(), legend.position = "None")+
@@ -249,6 +255,8 @@ H12_lt=ggplot(data[h_s==0.6& gen_year==10&sim_type=="Long-Term Fluctuating"], ae
   geom_vline(data = subset(data[sim_type=="Long-Term Fluctuating"]),aes(xintercept = 0), col= "red",linetype="dotted", size=.7)+
   geom_line(aes(y=mean_H12, group=block), alpha=0.8, size=.5)+
   theme_bw()+
+  geom_texthline(aes(yintercept=h12_qt[[1]], label = "5%"), lty = 2, colour= 'black',hjust = 0.95)+
+  geom_texthline(aes(yintercept=h12_qt[[3]], label = "95%"), lty = 2, colour= 'black',hjust = 0.95)+
   labs(x="Distance from selected site (Mb)", y="Garud's H12", col="Selection Coefficient")+
   facet_wrap(~sim_type, ncol=4, scale="free_y")+
   theme(axis.title.x.bottom = element_blank(), axis.title.y = element_blank())+
@@ -259,6 +267,8 @@ H123_eq=ggplot(data[h_s==0.6& gen_year==10 &sim_type=="Early Equilibrium Fluctua
   geom_vline(data = subset(data[sim_type=="Early Equilibrium Fluctuating"]),aes(xintercept = 0), col= "red",linetype="dotted", size=.7)+
   geom_line(aes(y=mean_H123, group=block), alpha=0.8, size=.5)+
   theme_bw()+
+  geom_texthline(aes(yintercept=h123_qt[[1]], label = "5%"), lty = 2, colour= 'black',hjust = 0.95)+
+  geom_texthline(aes(yintercept=h123_qt[[3]], label = "95%"), lty = 2, colour= 'black',hjust = 0.95)+
   labs(x="Distance from selected site (Mb)", y="Garud's H123", col="Selection Coefficient")+
   facet_wrap(~sim_type, ncol=4, scale="free_y")+
   theme(axis.title.x.bottom = element_blank(), legend.position = "None")+
@@ -266,7 +276,9 @@ H123_eq=ggplot(data[h_s==0.6& gen_year==10 &sim_type=="Early Equilibrium Fluctua
 H123_lt=ggplot(data[h_s==0.6& gen_year==10&sim_type=="Long-Term Fluctuating"], aes(x=dist/100,  col=factor(s_s)))+
   geom_vline(data = subset(data[sim_type=="Long-Term Fluctuating"]),aes(xintercept = 0), col= "red",linetype="dotted", size=.7)+
   geom_line(aes(y=mean_H123, group=block), alpha=0.8, size=.5)+
-  theme_bw()+
+  theme_bw()+ 
+  geom_texthline(aes(yintercept=h123_qt[[1]], label = "5%"), lty = 2, colour= 'black',hjust = 0.95)+
+  geom_texthline(aes(yintercept=h123_qt[[3]], label = "95%"), lty = 2, colour= 'black',hjust = 0.95)+
   labs(x="Distance from selected site (Mb)", y="Garud's H123", col="Selection Coefficient")+
   facet_wrap(~sim_type, ncol=4, scale="free_y")+
   theme(axis.title.x.bottom = element_blank(), axis.title.y = element_blank())+
@@ -277,6 +289,8 @@ H2H1_eq=ggplot(data[h_s==0.6& gen_year==10 &sim_type=="Early Equilibrium Fluctua
   geom_vline(data = subset(data[sim_type=="Early Equilibrium Fluctuating"]),aes(xintercept = 0), col= "red",linetype="dotted", size=.7)+
   geom_line(aes(y=mean_H2H1, group=block),alpha=0.8, size=.5)+
   theme_bw()+
+  geom_texthline(aes(yintercept=h2h1_qt[[1]], label = "5%"), lty = 2, colour= 'black',hjust = 0.95)+
+  geom_texthline(aes(yintercept=h2h1_qt[[3]], label = "95%"), lty = 2, colour= 'black',hjust = 0.95)+
   labs(x="Distance from selected site (Mb)", y="Garud's H2/H1", col="Selection Coefficient")+
   facet_wrap(~sim_type, ncol=4, scale="free_y")+
   theme(axis.title.x.bottom = element_blank(), legend.position = "None")+
@@ -285,6 +299,8 @@ H2H1_lt=ggplot(data[h_s==0.6& gen_year==10&sim_type=="Long-Term Fluctuating"], a
   geom_vline(data = subset(data[sim_type=="Long-Term Fluctuating"]),aes(xintercept = 0), col= "red",linetype="dotted", size=.7)+
   geom_line(aes(y=mean_H2H1, group=block), alpha=0.8, size=.5)+
   theme_bw()+
+  geom_texthline(aes(yintercept=h2h1_qt[[1]], label = "5%"), lty = 2, colour= 'black',hjust = 0.95)+
+  geom_texthline(aes(yintercept=h2h1_qt[[3]], label = "95%"), lty = 2, colour= 'black',hjust = 0.95)+
   labs(x="Distance from selected site (Mb)", y="Garud's H2/H1", col="Selection Coefficient")+
   facet_wrap(~sim_type, ncol=4, scale="free_y")+
   theme(axis.title.x.bottom = element_blank(), axis.title.y = element_blank())+
