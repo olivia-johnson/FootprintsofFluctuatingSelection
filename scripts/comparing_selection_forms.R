@@ -23,6 +23,21 @@ sum_stats[,ncd4_z:=(ncd_4-m.ncd4)/sd.ncd4, by=c("bin", "ncd_4")] # standardise N
 sum_stats[,ncd3_z:=(ncd_3-m.ncd3)/sd.ncd3, by=c("bin", "ncd_3")] # standardise NCD (TF=0.3)
 
 sum_stats[, year:=ifelse(gen_season=="EG",Gen%/%20, Gen%/%12), by="Gen"] # Determine the year/seasonal cycle of each generation
+
+## caculate 5%, 50% and 95% quartiles for neutral simulations to compare against other selection forms
+div_qt=sum_stats[Gen==2560,quantile(diversity, probs=c(0.05, 0.5,0.95))]
+thetaw_qt=sum_stats[Gen==2560,quantile(theta_w_allele, probs=c(0.05, 0.5,0.95))]
+taj_qt=sum_stats[Gen==2560,quantile(tajimas_d_branch, probs=c(0.05, 0.5,0.95))]
+ncd_qt=sum_stats[Gen==2560,quantile(ncd_5, probs=c(0.05, 0.5,0.95))]
+ncdz_qt=sum_stats[Gen==2560,quantile(ncd5_z, probs=c(0.05, 0.5,0.95))]
+var_qt=sum_stats[Gen==2560,quantile(variance, probs=c(0.05, 0.5,0.95))]
+skew_qt=sum_stats[Gen==2560,quantile(skew, probs=c(0.05, 0.5,0.95))]
+kurt_qt=sum_stats[Gen==2560,quantile(kurtosis, probs=c(0.05, 0.5,0.95))]
+h1_qt=sum_stats[Gen==2560,quantile(H1, probs=c(0.05, 0.5,0.95))]
+h12_qt=sum_stats[Gen==2560,quantile(H12, probs=c(0.05, 0.5,0.95))]
+h123_qt=sum_stats[Gen==2560,quantile(H123, probs=c(0.05, 0.5,0.95))]
+h2h1_qt=sum_stats[Gen==2560,quantile(H2H1, probs=c(0.05, 0.5,0.95))]
+
 gens=c(96040:96060) ## Finals sampling generations
 neutral=sum_stats[Gen %in% gens & edges==F &(gen_year==5|gen_year==10|gen_year==15|gen_year==0)] ## subset to just generations of interest
 neutral[, sim_type:=ifelse(Gen<2000, "Early Neutral", "Neutral"), by="Gen"] ## add sim_type label
@@ -282,11 +297,9 @@ significance[ p.adj<0.05 &(group1=="Long-Term Fluctuating" |group2=="Long-Term F
 supp.labs <- c("Nucleotide Diversity", "Watterson's Theta","Tajima's D",  "Garud's H1", "Garud's H12", "Garud's H2/H1","Garud's H123", "NCD (TF=0.5)","NCD (TF=0.4)","NCD (TF=0.3)", "Standardised NCD (TF=0.5)","Standardised NCD (TF=0.4)","Standardised NCD (TF=0.3)",  "Variance", "Skew", "Kurtosis")
 names(supp.labs) <- c("diversity", "theta_w_allele","tajimas_d_site",  "H1", "H12", "H2H1","H123","ncd_5","ncd_4","ncd_3", "ncd5_z", "ncd4_z","ncd3_z", "variance", "skew", "kurtosis")
 col.names <- c("diversity", "theta_w_allele","tajimas_d_site",  "H1", "H12", "H2H1","H123","ncd_5","ncd_4","ncd_3", "ncd5_z", "ncd4_z","ncd3_z", "variance", "skew", "kurtosis")
-data_cols=c("dist", "diversity", "theta_w_allele","tajimas_d_site",  "H1", "H12", "H2H1","H123","ncd_5","ncd_4","ncd_3", "ncd5_z","ncd4_z","ncd3_z",  "variance", "skew", "kurtosis", "sim_type", "run", "gen_year", "fluctuation")
-
 ## Figure 5 (S10, S11)
   ## columns to subset data
-data_cols=c("dist", "diversity", "theta_w_allele","tajimas_d_site", "H1", "H12", "H123","H2H1","ncd_5", "ncd5_z", "variance", "skew", "kurtosis", "sim_type", "run", "gen_year", "fluctuation")
+data_cols=c("dist", "diversity", "theta_w_allele","tajimas_d_site",  "H1", "H12", "H2H1","H123","ncd_5","ncd_4","ncd_3", "ncd5_z","ncd4_z","ncd3_z",  "variance", "skew", "kurtosis", "sim_type", "run", "gen_year", "fluctuation")
 
 focal=data[dist==0 , .SD, .SDcols=data_cols] ## subset data
 all_comp=melt(focal, id.vars=c("sim_type", "run", "gen_year", "dist", "fluctuation"), variable.name="statistic") ## change shape of tables
