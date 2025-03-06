@@ -76,12 +76,12 @@ for (sim_type in types){ # loop through sfs labels
 alldata[sim_type=="hard", label:="Hard Sweep"]
 alldata[sim_type=="soft", label:="Soft Sweep"]
 alldata[sim_type=="neutral", label:="Neutral"]
-alldata[sim_type=="eq_wittmann_unlinked", label:="Early Eq.\nFluctuating\nCentral"]
-alldata[sim_type=="lt_wittmann_unlinked", label:="Long-Term\nFluctuating\nCentral"]
-alldata[sim_type=="eq_250kb_wittmann_unlinked", label:="Early Eq.\nFluctuating\n250kb"]
-alldata[sim_type=="lt_250kb_wittmann_unlinked", label:="Long-Term\nFluctuating\n250kb"]
-alldata[sim_type=="eq_balancing", label:="Early Eq.\nBalancing\n(s=0.1)"]
-alldata[sim_type=="lt_balancing", label:="Long-Term\nBalancing\n(s=0.1)"]
+alldata[sim_type=="eq_wittmann_unlinked", label:="Early Eq. FS\nCentral"]
+alldata[sim_type=="lt_wittmann_unlinked", label:="Long-Term FS\nCentral"]
+alldata[sim_type=="eq_250kb_wittmann_unlinked", label:="Early Eq. FS\n250kb"]
+alldata[sim_type=="lt_250kb_wittmann_unlinked", label:="Long-Term FS\n250kb"]
+alldata[sim_type=="eq_balancing", label:="Early Eq HA\n(s=0.1)"]
+alldata[sim_type=="lt_balancing", label:="Long-Term HAg\n(s=0.1)"]
 
 # Create the foled and unfolded neutral expectations
 folded_exp=data.table(x=1:100, y=(1/1:100)*alldata[sim_type=="neutral", max(value)]/20)
@@ -92,8 +92,8 @@ folded=ggplot(alldata[sfs=="Folded" & sim_type!="lt_250kb_wittmann_unlinked"], a
   geom_line(data=folded_exp, aes(x=x, y=y), alpha=0.5, linewidth=0.3)+
   geom_col()+ 
   theme_bw()+
-  facet_wrap(~factor(label, c("Neutral","Early Eq.\nFluctuating\nCentral","Early Eq.\nFluctuating\n250kb", "Long-Term\nFluctuating\nCentral",
-                                 "Early Eq.\nBalancing\n(s=0.1)", "Long-Term\nBalancing\n(s=0.1)", "Hard Sweep", "Soft Sweep")), ncol=1, switch = "both") +
+  facet_wrap(~factor(label, c("Neutral","Early Eq. FS\nCentral","Early Eq. FS\n250kb", "Long-Term FS\nCentral",
+                                 "Early Eq. HA\n(s=0.1)", "Long-Term HA\n(s=0.1)", "Hard Sweep", "Soft Sweep")), ncol=1, switch = "both") +
   theme(legend.position = 'none',axis.title.y = element_blank()) +labs(x="Folded", y="") +coord_cartesian(x=c(0,100))
   
 # plot of the unfolded spectrums
@@ -101,8 +101,8 @@ unfolded=ggplot(alldata[sfs=="Unfolded" & sim_type!="lt_250kb_wittmann_unlinked"
   geom_line(data=unfolded_exp, aes(x=x, y=y), alpha=0.5, linewidth=0.3)+
   geom_col()+ 
   theme_bw()+
-  facet_wrap(~factor(label, c("Neutral","Early Eq.\nFluctuating\nCentral","Early Eq.\nFluctuating\n250kb", "Long-Term\nFluctuating\nCentral",
-                                 "Early Eq.\nBalancing\n(s=0.1)", "Long-Term\nBalancing\n(s=0.1)", "Hard Sweep", "Soft Sweep")), ncol=1) +
+  facet_wrap(~factor(label, c("Neutral","Early Eq. FS\nCentral","Early Eq. FS\n250kb", "Long-Term FS\nCentral",
+                                 "Early Eq. HA\n(s=0.1)", "Long-Term HA\n(s=0.1)", "Hard Sweep", "Soft Sweep")), ncol=1) +
   theme(legend.position = 'none',strip.text.x = element_blank(), axis.title.y = element_blank()) +labs(x="Unfolded", y="")
 
 # add folded and unfolded panels
