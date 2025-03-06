@@ -177,7 +177,7 @@ load(file=paste0(path,"200_af_single_locus_balancing.RData"))
 
 ## subset long-term and early equilibrium data as in previous R scripts
 balancing=sum_stats[label=="CP10k_EG_h_0_s_0.1" & Gen >=96040 & Gen<96060]
-balancing[, sim_type:="Long-Term\nBalancing"]
+balancing[, sim_type:="Long-Term HA"]
 balancing_af=freq_data[label=="CP10k_EG_h_0_s_0.1"]
 balancing_af[, sim_type:="Balancing"]
 balancing_af[, year:=ifelse(gen_season=="EG",Gen%/%20, Gen%/%12), by="Gen"]
@@ -197,7 +197,7 @@ for (j in 1:200){ ## loop through 200 replicates
         sum_bal=sum_stats[label=="CP10k_EG_h_0_s_0.1" & run==j & year==nearest &edges==F ]}
   balancinge=rbind(sum_bal, balancinge)}
 if (sum(balancinge[,length(unique(Gen)), by="run"]$V1==20)==200){print("Full season")}else{print("Not full season! - Balancing")}
-balancinge[, sim_type:="Early Equilibrium\nBalancing"]
+balancinge[, sim_type:="Early Equilibrium HA"]
 
 
 #load in fluctuating data, recalculate ncd, sample one complete year of data (1 summer/winter cycle) following at end of sim (96040 gens) or early
@@ -220,7 +220,7 @@ gens=c(10,110,650, 2570, 5130, 12010, 24010, 36010,48010,60010,72010,84010, 9604
 
 wittmann=sum_stats[label==w_label & Gen>=96040 & Gen<96060]#Gen >=96040 & Gen<96060]
 
-wittmann[, sim_type:=ifelse(Gen>96000, "Long-Term\nFluctuating", paste0("Fluctuating_", Gen)), by="Gen"]
+wittmann[, sim_type:=ifelse(Gen>96000, "Long-Term FS", paste0("Fluctuating_", Gen)), by="Gen"]
 wittmann_af=freq_data[label==w_label]
 wittmann_af[, sim_type:="Fluctuating"]
 wittmann_af[, year:=ifelse(gen_season=="EG",Gen%/%20, Gen%/%12), by="Gen"]
@@ -240,7 +240,7 @@ for (j in 1:200){
         sum_wit=sum_stats[label==w_label & run==j & year==nearest &edges==F ]}
   wittmanne=rbind(sum_wit, wittmanne)}
 if (sum(wittmanne[,length(unique(Gen)), by="run"]$V1==20)==200){print("Full season")}else{print("Not full season! - Wittmann")}
-wittmanne[, sim_type:="Early Equilibrium\nFluctuating"]
+wittmanne[, sim_type:="Early Equilibrium FS"]
 
 remove(wittmann_af, balancing_af)  ## remove allele frequency files to make space
 
@@ -252,7 +252,7 @@ wittmann[, sel_type:="Fluctuating"]
 wittmanne[, sel_type:="Fluctuating"]
 
 ## Merge dataset
-data=rbind(balancing,  wittmann[sim_type=="Long-Term\nFluctuating"], neutral,balancinge, wittmanne)
+data=rbind(balancing,  wittmann[sim_type=="Long-Term FS"], neutral,balancinge, wittmanne)
 
 ### RUN STEP-WISE LDAS ###
 
