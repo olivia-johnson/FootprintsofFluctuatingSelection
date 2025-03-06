@@ -7,7 +7,7 @@ pacman::p_load(data.table, ggplot2)
 path='/Path/to/FootprintsofFluctuatingSelection/'
 setwd(path)
 
-types=c("hard", "soft", "neutral", "fluctuatinf", "balancing") # selection types
+types=c("hard", "soft", "neutral", "fluctuating", "heterozygote") # selection types
 groups=c(2,2,1,2,2) # unique parameter set identifiers (1 for each selection type)
 hdata=NULL
 for (s in 1:length(types)){ # loop through selection types
@@ -32,10 +32,10 @@ for (s in 1:length(types)){ # loop through selection types
   }
 
 # label selection types
-hdata[sim_type=="balancing", label:="Early Equilibrium\nBalancing"]
-hdata[sim_type=="wittmann_unlinked", label:="Early Equilibrium\nFluctuating"]
-hdata[sim_type=="lt_balancing", label:="Long-Term\nBalancing"]
-hdata[sim_type=="lt_wittmann_unlinked", label:="Long-Term\nFluctuating"]
+hdata[sim_type=="balancing", label:="Early Equilibrium HA"]
+hdata[sim_type=="wittmann_unlinked", label:="Early Equilibrium FS"]
+hdata[sim_type=="lt_balancing", label:="Long-Term HA"]
+hdata[sim_type=="lt_wittmann_unlinked", label:="Long-Term FS"]
 hdata[sim_type=="lt_neutral", label:="Neutral"]
 hdata[sim_type=="hard", label:="Hard Sweep"]
 hdata[sim_type=="soft", label:="Soft Sweep"]
@@ -58,7 +58,7 @@ top.5[,mean:=(mean(count)/50)/200, by=c("sim_type", "id")]
 # plot most common haplotype frequency spectrum
 hapfreq=ggplot(top.5[id<6], aes(x=id, y=mean, fill=label))+geom_col()+theme(legend.position = "none")+
   labs(x="Most Common Haplotypes", y="Average Haplotype Frequency")+ 
-  facet_wrap(~factor(label, c("Neutral", "Early Equilibrium\nFluctuating","Long-Term\nFluctuating","Hard Sweep", "Soft Sweep", "Early Equilibrium\nBalancing","Long-Term\nBalancing"))) 
+  facet_wrap(~factor(label, c("Neutral", "Early Equilibrium FS","Long-Term FS","Hard Sweep", "Soft Sweep", "Early Equilibrium HA","Long-Term HA"))) 
   
 ggsave("plots/FigS4.pdf", plot=hapfreq)
 ggsave("plots/FigS4.jpg", plot=hapfreq)
