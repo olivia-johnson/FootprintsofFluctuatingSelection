@@ -154,7 +154,7 @@ sum_stats[, year:=ifelse(gen_season=="EG",Gen%/%20, Gen%/%12), by="Gen"]
 load(file=paste0(path,"af_single_locus_wittmann_unlinked.RData"))
 
 wittmann=sum_stats[label==w_label& Gen >=96040 & Gen<96060] ## sample long-term timepoint
-wittmann[, sim_type:="Long-Term Fluctuating"] ## add label
+wittmann[, sim_type:="Long-Term FS"] ## add label
 wittmann_af=freq_data[label==w_label] ## subset allele frequency data
 wittmann_af[, sim_type:="Fluctuating"]
 wittmann_af[, year:=ifelse(gen_season=="EG",Gen%/%20, Gen%/%12), by="Gen"]
@@ -175,9 +175,9 @@ for (j in 1:50){
       sum_wit=sum_stats[label==w_label & run==j & year==nearest &edges==F ]}
   wittmanne=rbind(sum_wit, wittmanne)}
 if (sum(wittmanne[,length(unique(Gen)), by="run"]$V1==20)==50){print("Full season")}else{print("Not full season! - Wittmann")}
-wittmanne[, sim_type:="Early Equilibrium Fluctuating"]
+wittmanne[, sim_type:="Early Equilibrium FS"]
 
-#load in balancing data, recalculate ncd, sample one complete year of data (1 summer/winter cycle) following at end of sim (96040 gens; long-term) or early equilibrium
+#load in heterozygote advantage data, recalculate ncd, sample one complete year of data (1 summer/winter cycle) following at end of sim (96040 gens; long-term) or early equilibrium
 
 load(file=paste0(path,"single_locus_balancing.RData"))
 
@@ -194,7 +194,7 @@ sum_stats[, year:=ifelse(gen_season=="EG",Gen%/%20, Gen%/%12), by="Gen"]
 load(file=paste0(path, "af_single_locus_balancing.RData"))
 
 balancing=sum_stats[label=="CP10k_EG_h_0_s_0.1"&group==2& Gen >=96040 & Gen<96060] ## subset s = 0.1 sims
-balancing[, sim_type:="Long-Term Balancing"]
+balancing[, sim_type:="Long-Term HA"]
 balancing_af=freq_data[label=="CP10k_EG_h_0_s_0.1"]
 balancing_af[, sim_type:="Balancing"]
 balancing_af[, year:=ifelse(gen_season=="EG",Gen%/%20, Gen%/%12), by="Gen"]
@@ -217,7 +217,7 @@ for (j in 1:50){
 
  if (sum(balancinge[,length(unique(Gen)), by="run"]$V1==20)==50){print("Full season")}else{print("Not full season! - Balancing")}
 
-balancinge[, sim_type:="Early Equilibrium Balancing"]
+balancinge[, sim_type:="Early Equilibrium HA"]
 
 ## Merge datasets into a single complete dataset
 sum_stat=rbind(balancing, wittmann, soft, hard, neutral,balancinge, wittmanne)
@@ -284,11 +284,11 @@ significance=merge(significance, comps, by = c("group1", "group2", ".y."))
 
 ## Investigate significance dataset
 ##Example comparing fluctuating with positive selection
-significance[ p.adj<0.05 & gen_year==10 &(group1=="Early Equilibrium Fluctuating" |group1=="Long-Term Fluctuating" |
-  group2=="Early Equilibrium Fluctuating" |group2=="Long-Term Fluctuating")& (group1=="Soft Sweep" |group1=="Hard Sweep" |
+significance[ p.adj<0.05 & gen_year==10 &(group1=="Early Equilibrium FS" |group1=="Long-Term FS" |
+  group2=="Early Equilibrium FS" |group2=="Long-Term FS")& (group1=="Soft Sweep" |group1=="Hard Sweep" |
   group2=="Soft Sweep" |group2=="Hard Sweep"), .N, by=c(".y.")] ## number of significant comparisons
 
-significance[ p.adj<0.05 &(group1=="Long-Term Fluctuating" |group2=="Long-Term Fluctuating")& (group1=="Hard Sweep" |
+significance[ p.adj<0.05 &(group1=="Long-Term FS" |group2=="Long-Term FS")& (group1=="Hard Sweep" |
   group2=="Hard Sweep"), .(max(p.adj), min(cohens_d)), by=".y."]  ## Maximum P value and Minimum Cohen's D for comparisons
 
 ## Plots ##
@@ -305,9 +305,9 @@ focal=data[dist==0 , .SD, .SDcols=data_cols] ## subset data
 all_comp=melt(focal, id.vars=c("sim_type", "run", "gen_year", "dist", "fluctuation"), variable.name="statistic") ## change shape of tables
 plot=ggplot(all_comp[gen_year==10], aes(x=sim_type, y=value))+ theme_bw()+
   geom_boxplot(aes(fill=sim_type), col="gray30") +
-  scale_fill_manual(values = c("Neutral" = "#C49A00","Long-Term Balancing"="#F8766D","Early Equilibrium Balancing"="#FB61D7","Long-Term Fluctuating"="#00C094","Early Equilibrium Fluctuating"="#53B400", "Hard Sweep"="#A58AFF", "Soft Sweep"="#00B6EB")) +
+  scale_fill_manual(values = c("Neutral" = "#C49A00","Long-Term HA"="#F8766D","Early Equilibrium HA"="#FB61D7","Long-Term FS"="#00C094","Early Equilibrium FS"="#53B400", "Hard Sweep"="#A58AFF", "Soft Sweep"="#00B6EB")) +
   facet_wrap("statistic", scale="free_y", labeller = labeller(statistic = supp.labs), ncol = 3)+  
-  scale_x_discrete(limits = c("Neutral", "Early Equilibrium Balancing", "Long-Term Balancing", "Early Equilibrium Fluctuating","Long-Term Fluctuating","Hard Sweep", "Soft Sweep"))+
+  scale_x_discrete(limits = c("Neutral", "Early Equilibrium HA", "Long-Term HA", "Early Equilibrium FS","Long-Term FS","Hard Sweep", "Soft Sweep"))+
   labs( y="Value of Statistic", x="Type of Selection")+theme(legend.position = "none", axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 plot
 ggexport(plot, filename="plots/boxplot_s01.pdf", width = 8.5, height=9)
@@ -317,16 +317,19 @@ ggsave(plot, filename="plots/boxplot_s01.jpg", width = 8.5, height=9)
 ## Figure 6 - Comparisons between balancing and fluctuating selection
 
 plot_dist=0.25 ## distance on either side of selected site to plot
-bdata=data[sim_type=="Early Equilibrium Balancing"& gen_year==10] ## subset data to just early equilibrium balancing
-fdata=data[sim_type=="Early Equilibrium Fluctuating"& gen_year==10] ## subset data to just early equilibrium fluctuating
+bdata=data[sim_type=="Early Equilibrium HA"& gen_year==10] ## subset data to just early equilibrium heterozygote advantage
+fdata=data[sim_type=="Early Equilibrium FS"& gen_year==10] ## subset data to just early equilibrium fluctuating
 f.col="#53B400" ## colour for early equilibrium fluctuating
-b.col="#FB61D7" ## colour for early equilibrium balancing
+b.col="#FB61D7" ## colour for early equilibrium heterozygote advantage
 
   ## Early equilibrium panels
 f_taj = ggplot(fdata, aes(x=dist/100))+
   geom_line(aes(y=tajimas_d_site,group=block), alpha=0.1, col=f.col)+
   geom_line(aes(y=mean_tajd), col="black", size=0.8)+
   theme_bw()+
+  geom_texthline(aes(yintercept=taj_qt[[1]], label = "5%"), lty = 2, colour= 'black',hjust = 0.95)+
+  geom_texthline(aes(yintercept=taj_qt[[2]], label = "50%"), lty = 2, colour= 'black',hjust = 0.95)+
+  geom_texthline(aes(yintercept=taj_qt[[3]], label = "95%"), lty = 2, colour= 'black',hjust = 0.95)+
   geom_vline(data = subset(fdata),aes(xintercept = 0), col= "red",linetype="dotted", size=.7)+
   facet_wrap("sim_type")+
   theme(axis.title.x.bottom = element_blank(), axis.title.y.left = element_blank())+
@@ -336,6 +339,9 @@ b_taj = ggplot(bdata, aes(x=dist/100))+
   geom_line(aes(y=tajimas_d_site,group=block), alpha=0.1, col=b.col)+
   geom_line(aes(y=mean_tajd), col="black", size=0.8)+
   theme_bw()+
+  geom_texthline(aes(yintercept=taj_qt[[1]], label = "5%"), lty = 2, colour= 'black',hjust = 0.95)+
+  geom_texthline(aes(yintercept=taj_qt[[2]], label = "50%"), lty = 2, colour= 'black',hjust = 0.95)+
+  geom_texthline(aes(yintercept=taj_qt[[3]], label = "95%"), lty = 2, colour= 'black',hjust = 0.95)+
   geom_vline(data = subset(bdata),aes(xintercept = 0), col= "red",linetype="dotted", size=.7)+
   facet_wrap("sim_type")+
   theme(axis.title.x.bottom = element_blank())+
@@ -348,6 +354,9 @@ f_H1 = ggplot(fdata, aes(x=dist/100))+
   geom_line(aes(y=H1,group=block), alpha=0.1, col=f.col)+
   geom_line(aes(y=mean_H1), col="black", size=0.8)+
   theme_bw()+
+  geom_texthline(aes(yintercept=h1_qt[[1]], label = "5%"), lty = 2, colour= 'black',hjust = 0.95)+
+  geom_texthline(aes(yintercept=h1_qt[[2]], label = "50%"), lty = 2, colour= 'black',hjust = 0.95)+
+  geom_texthline(aes(yintercept=h1_qt[[3]], label = "95%"), lty = 2, colour= 'black',hjust = 0.95)+
   facet_wrap("sim_type")+  theme(axis.title.x.bottom = element_blank(), axis.title.y.left = element_blank())+
   coord_cartesian(x=c(-plot_dist,plot_dist), y=c(0.002, 0.075))
 b_H1 = ggplot(bdata, aes(x=dist/100))+
@@ -355,6 +364,9 @@ b_H1 = ggplot(bdata, aes(x=dist/100))+
   geom_line(aes(y=H1,group=block), alpha=0.1, col=b.col)+
   geom_line(aes(y=mean_H1), col="black", size=0.8)+
   theme_bw()+
+  geom_texthline(aes(yintercept=h1_qt[[1]], label = "5%"), lty = 2, colour= 'black',hjust = 0.95)+
+  geom_texthline(aes(yintercept=h1_qt[[2]], label = "50%"), lty = 2, colour= 'black',hjust = 0.95)+
+  geom_texthline(aes(yintercept=h1_qt[[3]], label = "95%"), lty = 2, colour= 'black',hjust = 0.95)+
   facet_wrap(~sim_type)+
   theme(axis.title.x.bottom = element_blank(),)+
   ylab("Garud's H1")+
@@ -363,8 +375,8 @@ com_H1 = ggarrange(b_H1, f_H1, nrow=1)
 
   ## long-term panels
 
-bdata=data[sim_type=="Long-Term Balancing"& gen_year==10] ## subset data to just long-term balancing
-fdata=data[sim_type=="Long-Term Fluctuating"& gen_year==10] ## subset data to just long-term fluctuating
+bdata=data[sim_type=="Long-Term HA"& gen_year==10] ## subset data to just long-term heterozygote advantage
+fdata=data[sim_type=="Long-Term FS"& gen_year==10] ## subset data to just long-term fluctuating
 f.col="#00C094" ## colour for long-term fluctuating
 b.col="#F8766D" ## colour for long-term fluctuating
 
@@ -373,6 +385,9 @@ f_div = ggplot(fdata, aes(x=dist/100))+
   geom_line(aes(y=diversity,group=block), alpha=0.1, col=f.col)+
   geom_line(aes(y=mean_div), col="black", size=0.8)+
   theme_bw()+
+  geom_texthline(aes(yintercept=div_qt[[1]], label = "5%"), lty = 2, colour= 'black',hjust = 0.95)+
+  geom_texthline(aes(yintercept=div_qt[[2]], label = "50%"), lty = 2, colour= 'black',hjust = 0.95)+
+  geom_texthline(aes(yintercept=div_qt[[3]], label = "95%"), lty = 2, colour= 'black',hjust = 0.95)+
   facet_wrap("sim_type")+
   theme(axis.title.x.bottom = element_blank(), axis.title.y.left = element_blank())+
   coord_cartesian(x=c(-.5,.5), y=c(0.0025, 0.0055))
@@ -381,6 +396,9 @@ b_div = ggplot(bdata, aes(x=dist/100))+
   geom_line(aes(y=diversity,group=block), alpha=0.1, col=b.col)+
   geom_line(aes(y=mean_div), col="black", size=0.8)+
   theme_bw()+
+  geom_texthline(aes(yintercept=div_qt[[1]], label = "5%"), lty = 2, colour= 'black',hjust = 0.95)+
+  geom_texthline(aes(yintercept=div_qt[[2]], label = "50%"), lty = 2, colour= 'black',hjust = 0.95)+
+  geom_texthline(aes(yintercept=div_qt[[3]], label = "95%"), lty = 2, colour= 'black',hjust = 0.95)+
   facet_wrap("sim_type")+
   theme(axis.title.x.bottom = element_blank(),)+
   ylab("Nucleotide Diversity")+
@@ -391,6 +409,9 @@ f_ncd5 = ggplot(fdata, aes(x=dist/100))+
   geom_line(aes(y=ncd5_z,group=block), alpha=0.1, col=f.col)+
   geom_line(aes(y=mean_ncd5_z), col="black", size=0.8)+
   theme_bw()+
+  geom_texthline(aes(yintercept=ncdz_qt[[1]], label = "5%"), lty = 2, colour= 'black',hjust = 0.95)+
+  geom_texthline(aes(yintercept=ncdz_qt[[2]], label = "50%"), lty = 2, colour= 'black',hjust = 0.95)+
+  geom_texthline(aes(yintercept=ncdz_qt[[3]], label = "95%"), lty = 2, colour= 'black',hjust = 0.95)+
   geom_vline(data = subset(fdata),aes(xintercept = 0), col= "red",linetype="dotted", size=.7)+
   facet_wrap("sim_type")+
   theme(axis.title.x.bottom = element_blank(), axis.title.y.left = element_blank())+
@@ -399,6 +420,9 @@ b_ncd5 = ggplot(bdata, aes(x=dist/100))+
   geom_line(aes(y=ncd5_z,group=block), alpha=0.1, col=b.col)+
   geom_line(aes(y=mean_ncd5_z), col="black", size=0.8)+
   theme_bw()+
+  geom_texthline(aes(yintercept=ncdz_qt[[1]], label = "5%"), lty = 2, colour= 'black',hjust = 0.95)+
+  geom_texthline(aes(yintercept=ncdz_qt[[2]], label = "50%"), lty = 2, colour= 'black',hjust = 0.95)+
+  geom_texthline(aes(yintercept=ncdz_qt[[3]], label = "95%"), lty = 2, colour= 'black',hjust = 0.95)+
   geom_vline(data = subset(bdata),aes(xintercept = 0), col= "red",linetype="dotted", size=.7)+
   facet_wrap("sim_type")+
   theme(axis.title.x.bottom = element_blank(),)+
@@ -422,8 +446,7 @@ ggsave(filename="plots/Fig6.jpg", div_fb, width=7, height = 8)
 col.labs <- data.frame(col.names, supp.labs, row.names = NULL)
 col.labs$supp.labs<-factor(col.labs$supp.labs, levels=c(col.labs$supp.labs))
 
-heatdata=significance[.y.!="ncd3_z" &.y.!="ncd4_z"&.y.!="ncd_3" &.y.!="ncd_4"] ## exclude NCD (TF = 0.4 & 0.3)
-heatdata=merge(heatdata, col.labs, by.x = ".y.", by.y="col.names")
+heatdata=merge(significance, col.labs, by.x = ".y.", by.y="col.names")
 heat=ggplot()+
   geom_tile(data=heatdata[p.adj<0.05],aes(x=group1, y=group2, fill=p.adj))+
   scale_fill_gradientn(trans="log10", na.value = "white",colours=c("orange", "darkmagenta", "navyblue"))+
